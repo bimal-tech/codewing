@@ -18,7 +18,6 @@ class AuthController extends Controller
             'email' => 'required',
             'password' => 'required'
         ]);
-        dd(Hash::make($request->password));
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             return redirect()->route('data.index');
         }

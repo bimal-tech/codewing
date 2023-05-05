@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class DataController extends Controller
 {
@@ -27,7 +28,15 @@ class DataController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // $this->validate($request, [
+        //     'file' => 'required|file|mimes:.json'
+        // ]);
+        // dd($request->file);
+        $file = $request->file;
+        $file->move(public_path('data/'));
+        $content = $request->file;
+        $json = json_decode($content);
+        dd($json);
     }
 
     /**
