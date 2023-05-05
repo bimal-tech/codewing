@@ -29,7 +29,7 @@ class DownloadExcel implements ShouldQueue
      */
     public function handle(): void
     {
-        $excelFileName = 'data.xlsx';
+        $excelFileName = "{$this->fileName}.xlsx";
         Excel::store(new DataExport($this->fileName), $excelFileName);
     }
 }

@@ -22,6 +22,7 @@ class DataExport implements FromCollection, WithHeadings, WithTitle
         $json = File::get($this->path);
         $this->data = json_decode($json);
         $this->heading = array_keys((array)$this->data[0]);
+
     }
 
     public function collection()

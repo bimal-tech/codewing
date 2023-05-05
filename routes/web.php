@@ -23,6 +23,7 @@ Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/login', [AuthController::class, 'loginAction'])->name('login.submit');
 
 Route::middleware('auth')->group(function () {
-    Route::get('data', [DataController::class, 'index'])->name('data.index');
-    Route::post('data/submit', [DataController::class, 'store'])->name('data.store');
+    Route::get('data/get', [DataController::class, 'index'])->name('data.index');
+    Route::post('data/store', [DataController::class, 'store'])->name('data.store');
+    Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 });

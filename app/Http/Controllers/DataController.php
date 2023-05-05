@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\DataExport;
 use App\Jobs\DownloadExcel;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class DataController extends Controller
 {
@@ -28,9 +30,6 @@ class DataController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'file' => 'required|file|mimes:.json'
-        ]);
         $file = $request->file;
         $file_name = time() . '.json';
         $file->move(public_path('data/'), $file_name);
