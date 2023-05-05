@@ -2,13 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Exports\DataExport;
+use App\Jobs\DownloadExcel;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Storage;
-use Maatwebsite\Excel\Facades\Excel;
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class DataController extends Controller
 {
@@ -39,8 +34,8 @@ class DataController extends Controller
         $file = $request->file;
         $file_name = time() . '.json';
         $file->move(public_path('data/'), $file_name);
-        $excelFileName = 'data.xlsx';
-        return Excel::download(new DataExport("data/$file_name"), $excelFileName);
+        dispatch(new DownloadExcel("data/$file_name"));
+        return redirect()->route('data.index');
     }
 
     /**
