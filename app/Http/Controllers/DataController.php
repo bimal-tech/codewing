@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class DataController extends Controller
 {
@@ -31,12 +34,16 @@ class DataController extends Controller
         // $this->validate($request, [
         //     'file' => 'required|file|mimes:.json'
         // ]);
-        // dd($request->file);
+
         $file = $request->file;
-        $file->move(public_path('data/'));
-        $content = $request->file;
-        $json = json_decode($content);
-        dd($json);
+        $file_name = time() . '.json';
+        $file->move(public_path('data/'), $file_name);
+        $json = File::get("data/$file_name");
+        $data = json_decode($json);
+
+        dd($data);
+        // $json = json_decode($content);
+        // dd($json);
     }
 
     /**
