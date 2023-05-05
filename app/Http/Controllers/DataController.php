@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\DataExport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
@@ -31,19 +33,14 @@ class DataController extends Controller
      */
     public function store(Request $request)
     {
-        // $this->validate($request, [
-        //     'file' => 'required|file|mimes:.json'
-        // ]);
-
+        $this->validate($request, [
+            'file' => 'required|file|mimes:.json'
+        ]);
         $file = $request->file;
         $file_name = time() . '.json';
         $file->move(public_path('data/'), $file_name);
-        $json = File::get("data/$file_name");
-        $data = json_decode($json);
-
-        dd($data);
-        // $json = json_decode($content);
-        // dd($json);
+        $excelFileName = 'data.xlsx';
+        return Excel::download(new DataExport("data/$file_name"), $excelFileName);
     }
 
     /**
