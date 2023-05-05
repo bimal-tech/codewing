@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\DataExport;
-use App\Jobs\DownloadExcel;
+use App\Jobs\DownloadExcelJob;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -31,9 +31,9 @@ class DataController extends Controller
     public function store(Request $request)
     {
         $file = $request->file;
-        $file_name = time() . '.json';
-        $file->move(public_path('data/'), $file_name);
-        dispatch(new DownloadExcel("data/$file_name"));
+        $file_name = time();
+        $file->move(public_path('data/'), $file_name . '.json');
+        dispatch(new DownloadExcelJob("data/$file_name.json"));
         return redirect()->route('data.index');
     }
 

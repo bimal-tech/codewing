@@ -11,7 +11,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Maatwebsite\Excel\Facades\Excel;
 
-class DownloadExcel implements ShouldQueue
+class DownloadExcelJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -29,7 +29,7 @@ class DownloadExcel implements ShouldQueue
      */
     public function handle(): void
     {
-        $excelFileName = "{$this->fileName}.xlsx";
+        $excelFileName = time() . '.xlsx';
         Excel::store(new DataExport($this->fileName), $excelFileName);
     }
 }
